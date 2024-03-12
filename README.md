@@ -1,6 +1,6 @@
 # githubAction-test
 A minimum repo to test my Github Action worflow generate a file and be used for my personal website
 
-Adding a line to trigger a `push` event to GitHub Action workflows, I expect this will not trigger `get-repoData.json` in `for-personal-website` branch, because I encountered this problem in another repo
+This is the attempt no. 2 on trying to trigger `push` event to my workflow, with branches explicitly specified
 
-This `push` event is from `main` branch
+This will still fail, because `get-repoData.yml` is on a different branch than this one, even though I've set the `on.push` to be applied to all branches

@@ -27,6 +27,6 @@ jobs:
         uses: actions/github-script@v7.0.1
         with:
           script: |
-          import main from "${{github.workspace}}/.github/workflows/gneerate-repoData.js"
+            import main from `${{github.workspace}}/.github/workflows/gneerate-repoData.js`
 
-          await main()
+            await main()

@@ -3,6 +3,6 @@ import fs from "node:fs"
 
 
 export default async function main() {
-  const input = fs.readFileSync("./repoData/input.json", "utf-8")
-  console.dir(input, {depth: null, maxArrayLength: null, maxStringLength: null})
+  const {repoNames} = JSON.parse(fs.readFileSync("./repoData/input.json", "utf-8"))
+  console.dir(repoNames, {depth: null, maxArrayLength: null, maxStringLength: null})
 }

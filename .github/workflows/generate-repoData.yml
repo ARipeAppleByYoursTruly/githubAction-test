@@ -1,0 +1,32 @@
+name: Test generating repoData
+
+
+
+on:
+  push:
+    branches: main
+
+  workflow_dispatch:
+
+
+
+permissions:
+  contents: write
+
+
+
+jobs:
+  generate-repoData:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checking out the rpeo
+        uses: actions/checkout@v4.1.1
+
+      - name: Generating `repoData`
+        uses: actions/github-script@v7.0.1
+        with:
+          script: |
+          import main from "${{github.workspace}}/.github/workflows/gneerate-repoData.js"
+
+          await main()

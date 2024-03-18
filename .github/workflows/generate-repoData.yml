@@ -28,6 +28,6 @@ jobs:
         with:
           script: |
             // import main from `${{github.workspace}}/.github/workflows/gneerate-repoData.js`
-            const logic = await import(`${{github.workspace}}/.github/workflows/generate-repoData.js`)
+            const {default: main} = await import(`${{github.workspace}}/.github/workflows/generate-repoData.js`)
 
-            console.dir(logic, {depth: null, maxArrayLength: null, maxStringLength: null})
+            await main()

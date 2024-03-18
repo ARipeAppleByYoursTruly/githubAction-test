@@ -29,4 +29,4 @@ jobs:
           script: |
             const {default: main} = await import(`${{github.workspace}}/.github/workflows/generate-repoData.js`)
 
-            await main()
+            await main({github, context})

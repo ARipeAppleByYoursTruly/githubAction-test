@@ -1,3 +1,8 @@
+import fs from "node:fs"
+
+
+
 export default async function main() {
-  console.log("Hey, this works")
+  const input = fs.readFileSync("/repoData/input.json")
+  console.dir(input, {depth: null, maxArrayLength: null, maxStringLength: null})
 }

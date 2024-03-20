@@ -1,4 +1,5 @@
 name: Test generating repoData
+run-name: Test generating repoData
 
 
 
@@ -27,6 +28,8 @@ jobs:
         uses: actions/github-script@v7.0.1
         with:
           script: |
-            const {default: main} = await import(`${{github.workspace}}/.github/workflows/generate-repoData.js`)
+            const {default: main} = await import(
+              `${{github.workspace}}/.github/workflows/generate-repoData.js`
+            )
 
             await main({github, context})

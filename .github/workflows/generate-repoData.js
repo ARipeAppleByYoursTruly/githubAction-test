@@ -4,7 +4,19 @@ import fs from "node:fs"
 
 export default async function main({github, context}) {
   const ownerName = context.repo.owner
-  const {repoData_otherStuff_input} = JSON.parse(fs.readFileSync("./repoData/input.json", "utf-8"))
+  // const {repoData_otherStuff_input} = JSON.parse(fs.readFileSync("./repoData/input.json", "utf-8"))
+  const {repoData_otherStuff_input} = (() => {
+    let jsonFile
+
+    try {
+      jsonFile = fs.readFileSync("./repoData/input.json", "utf-8")
+    }
+    catch (error) {
+      throw new Error("repoData/input.json not found")
+    }
+
+    return JSON.parse(jsonFile)
+  })()
 
   // Get user's list of repos
   const repoList = await (async () => {
@@ -42,6 +54,9 @@ export default async function main({github, context}) {
         otherStuff: []
       }
     }
+
+    // File exists, repoData will use existing values
+    return JSON.parse(jsonFile)
   })()
 
   // Generate repoData for 100% guides

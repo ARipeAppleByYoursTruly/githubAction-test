@@ -4,7 +4,10 @@ import fs from "node:fs"
 
 export default async function main({github, context}) {
   const ownerName = context.repo.owner
-  // const {repoData_otherStuff_input} = JSON.parse(fs.readFileSync("./repoData/input.json", "utf-8"))
+
+
+
+  // Get repos that I want to track as other stuff
   const {repoData_otherStuff_input} = (() => {
     let jsonFile
 
@@ -17,6 +20,8 @@ export default async function main({github, context}) {
 
     return JSON.parse(jsonFile)
   })()
+
+
 
   // Get user's list of repos
   const repoList = await (async () => {
@@ -36,11 +41,7 @@ export default async function main({github, context}) {
 
 
 
-  // const repoData = {
-  //   hundredPercentGuides: [],
-  //   otherStuff: []
-  // }
-
+  // Get repoData
   const repoData = (() => {
     let jsonFile
 
@@ -59,11 +60,25 @@ export default async function main({github, context}) {
     return JSON.parse(jsonFile)
   })()
 
+
+
   // Generate repoData for 100% guides
-  // To be implemened when I've started making 100%% guides
+  // To be implemened when I've started making 100% guides
+
+
 
   // Generate repoData for other stuff
-  // for (const repoName of repoData_otherStuff_input) {
-  //   const repoName
-  // }
+  for (const repoName of repoData_otherStuff_input) {
+    const repo_found = repoList.find((repo) => {
+      return repo.name === repoName
+    })
+
+    if (repo_found === undefined) {
+      continue
+    }
+
+    repoData.otherStuff.push(repo_found.name)
+  }
+
+  console.dir(repoData, {depth: null, maxArrayLength: null, maxStringLength: null})
 }

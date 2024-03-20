@@ -116,5 +116,8 @@ export default async function main({github, context}) {
     })
   }
 
-  console.dir(repoData, {depth: null, maxArrayLength: null, maxStringLength: null})
+
+
+  // Output repoData to file
+  fs.writeFileSync("./repoData/output.json", JSON.stringify(repoData, null, 2))
 }

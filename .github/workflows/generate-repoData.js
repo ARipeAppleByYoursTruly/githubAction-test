@@ -56,7 +56,7 @@ export default async function main({github, context}) {
       }
     }
 
-    // File exists, repoData will use existing values
+    // File exists, repoData will use existing values as base
     return JSON.parse(jsonFile)
   })()
 
@@ -69,15 +69,51 @@ export default async function main({github, context}) {
 
   // Generate repoData for other stuff
   for (const repoName of repoData_otherStuff_input) {
+    // Find the repo in repoList
     const repo_found = repoList.find((repo) => {
       return repo.name === repoName
     })
 
+    // Stale repos will not be updated
     if (repo_found === undefined) {
       continue
     }
 
-    repoData.otherStuff.push(repo_found.name)
+
+
+    // Replace url_html with the url to GitHub Pages if the repo has Pages
+    let url_html = repo_found.url_html
+
+    if (repo_found.has_pages) {
+      url_html = `https://aripeapplebyyourstruly.github.io/${repoName}`
+    }
+
+
+
+    // Get url of thumbnail if it exists
+    let url_thumbnail = await (async () =>{
+      const url = `https://raw.githubusercontent.com/${ownerName}/${repoName}/` +
+        "for-personal-website/thumbnail.webp"
+
+      const response = await fetch(url)
+
+      if (response.ok) {
+        return url
+      }
+      else {
+        return ""
+      }
+    })()
+
+
+
+    repoData.otherStuff.push({
+      name: repoName,
+      description: repo_found.description,
+      pushed_at: repo_found.pushed_at,
+      url_html: url_html,
+
+    })
   }
 
   console.dir(repoData, {depth: null, maxArrayLength: null, maxStringLength: null})

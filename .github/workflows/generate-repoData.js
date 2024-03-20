@@ -82,7 +82,7 @@ export default async function main({github, context}) {
 
 
     // Replace url_html with the url to GitHub Pages if the repo has Pages
-    let url_html = repo_found.url_html
+    let url_html = repo_found.html_url
 
     if (repo_found.has_pages) {
       url_html = `https://aripeapplebyyourstruly.github.io/${repoName}`
@@ -112,7 +112,7 @@ export default async function main({github, context}) {
       description: repo_found.description,
       pushed_at: repo_found.pushed_at,
       url_html: url_html,
-
+      url_thumbnail: url_thumbnail
     })
   }
 

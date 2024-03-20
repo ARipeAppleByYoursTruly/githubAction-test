@@ -30,12 +30,17 @@ export default async function main({github, context}) {
   // }
 
   const repoData = (() => {
-    const asd = fs.readFileSync("./repoData/output.json", "utf-8")
-    console.dir(asd, {depth: null, maxArrayLength: null, maxStringLength: null})
+    let jsonFile
 
-    return {
-      hundredPercentGuides: [],
-      otherStuff: []
+    try {
+      jsonFile = fs.readFileSync("./repoData/output.json", "utf-8")
+    }
+    catch (error) {
+      // File doesn't exist, repoData will be empty
+      return {
+        hundredPercentGuides: [],
+        otherStuff: []
+      }
     }
   })()
 
@@ -43,7 +48,7 @@ export default async function main({github, context}) {
   // To be implemened when I've started making 100%% guides
 
   // Generate repoData for other stuff
-  for (const repoName of repoData_otherStuff_input) {
-    // const repoName
-  }
+  // for (const repoName of repoData_otherStuff_input) {
+  //   const repoName
+  // }
 }

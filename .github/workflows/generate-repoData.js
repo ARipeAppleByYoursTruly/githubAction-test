@@ -108,13 +108,27 @@ export default async function main({github, context}) {
 
 
 
-    repoData.otherStuff.push({
+    // Update repoData
+    const inputRepoData = {
       name: inputRepoName,
       description: repo_found.description,
       pushed_at: repo_found.pushed_at,
       url_html: url_html,
       url_thumbnail: url_thumbnail
+    }
+
+
+
+    const repoData_repo_found_index = repoData.otherStuff.findIndex((repo) => {
+      return repo.name === inputRepoName
     })
+
+    if (repoData_repo_found_index > -1) {
+      repoData.otherStuff[repoData_repo_found_index] = inputRepoData
+    }
+    else {
+      repoData.otherStuff.push(inputRepoData)
+    }
   }
 
 

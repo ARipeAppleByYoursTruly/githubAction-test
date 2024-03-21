@@ -120,10 +120,9 @@ export default async function main({github, context}) {
 
 
   // Sort repoData by pushed_at
-  // repoData.otherStuff.sort((a, b) => {
-  //   return a.pushed_at.localCompare(b.pushed_at)
-  // })
-  console.dir(typeof repoData.otherStuff[0].pushed_at, {depth: null, maxArrayLength: null, maxStringLength: null})
+  repoData.otherStuff.sort((a, b) => {
+    return a.pushed_at.localeCompare(b.pushed_at)
+  })
 
 
 

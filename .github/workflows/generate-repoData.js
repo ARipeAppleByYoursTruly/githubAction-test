@@ -4,6 +4,7 @@ import fs from "node:fs"
 
 export default async function main({github, context}) {
   const ownerName = context.repo.owner
+  const repoName = context.repo.repo
 
 
 
@@ -68,10 +69,10 @@ export default async function main({github, context}) {
 
 
   // Generate repoData for other stuff
-  for (const repoName of repoData_otherStuff_input) {
+  for (const inputRepoName of repoData_otherStuff_input) {
     // Find the repo in repoList
     const repo_found = repoList.find((repo) => {
-      return repo.name === repoName
+      return repo.name === inputRepoName
     })
 
     // Stale repos will not be updated
@@ -85,14 +86,14 @@ export default async function main({github, context}) {
     let url_html = repo_found.html_url
 
     if (repo_found.has_pages) {
-      url_html = `https://aripeapplebyyourstruly.github.io/${repoName}`
+      url_html = `https://aripeapplebyyourstruly.github.io/${inputRepoName}`
     }
 
 
 
     // Get url of thumbnail if it exists
     let url_thumbnail = await (async () =>{
-      const url = `https://raw.githubusercontent.com/${ownerName}/${repoName}/` +
+      const url = `https://raw.githubusercontent.com/${ownerName}/${inputRepoName}/` +
         "for-personal-website/thumbnail.webp"
 
       const response = await fetch(url)
@@ -108,7 +109,7 @@ export default async function main({github, context}) {
 
 
     repoData.otherStuff.push({
-      name: repoName,
+      name: inputRepoName,
       description: repo_found.description,
       pushed_at: repo_found.pushed_at,
       url_html: url_html,
@@ -118,6 +119,28 @@ export default async function main({github, context}) {
 
 
 
-  // Output repoData to file
-  fs.writeFileSync("./repoData/output.json", JSON.stringify(repoData, null, 2))
+  // Get `repoData/output.json`'s SHA if it exists
+  let repoData_sha = await (async () => {
+    try {
+      const response = await github.rest.repos.getContent({
+        owner: ownerName,
+        repo: repoName,
+        path: "repoData/output.json"
+      })
+
+      if (response.status === 200) {
+        return response.data.sha
+      }
+    }
+    catch (error) {
+      return ""
+    }
+  })()
+console.dir(repoData_sha, {depth: null, maxArrayLength: null, maxStringLength: null})
+
+
+  // Write repoData to file
+  // const outputArguments = {
+
+  // }
 }

@@ -136,11 +136,22 @@ export default async function main({github, context}) {
       return ""
     }
   })()
-console.dir(repoData_sha, {depth: null, maxArrayLength: null, maxStringLength: null})
+
 
 
   // Write repoData to file
-  // const outputArguments = {
+  const outputArguments = {
+    owner: ownerName,
+    repo: repoName,
+    path: "repoData/output.json",
+    message: "Create `repoData/output.json`",
+    content: btoa(JSON.stringify(repoData, null, 2))
+  }
 
-  // }
+  if (repoData_sha !== "") {
+    outputArguments.sha = repoData_sha
+    outputArguments.message = "Update `repoData/output.json`"
+  }
+
+  github.rest.repos.createOrUpdateFileContents(outputArguments)
 }

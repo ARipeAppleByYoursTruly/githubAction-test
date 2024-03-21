@@ -119,6 +119,13 @@ export default async function main({github, context}) {
 
 
 
+  // Sort repoData by pushed_at
+  repoData.otherStuff.sort((a, b) => {
+    return a.pushed_at.localCompare(b.pushed_at)
+  })
+
+
+
   // Get `repoData/output.json`'s SHA if it exists
   let repoData_sha = await (async () => {
     try {

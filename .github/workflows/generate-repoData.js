@@ -135,7 +135,7 @@ export default async function main({github, context}) {
 
   // Sort repoData by pushed_at
   repoData.otherStuff.sort((a, b) => {
-    return a.pushed_at.localeCompare(b.pushed_at)
+    return b.pushed_at.localeCompare(a.pushed_at)
   })
 
 
